@@ -1,0 +1,133 @@
+<html>
+
+<head>
+    <title>Atividade 2</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            margin: unset;
+            height: 100%;
+            background-color: darkslategray;
+            color: white;
+            font-family:Arial, Helvetica, sans-serif 
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: nowrap;
+            width: 70%;
+            align-items: center;
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .row button {
+            margin-top: 15px;
+            padding: 5px;
+        }
+        form, .result-container {
+            padding: 15px;
+            background-color: rgb(148, 147, 147);
+            width: 100%;
+            max-width: 600px;
+            border-radius: 0.375rem;
+        }
+        .result-container {
+            padding-bottom: 10vh;
+        }
+        .result input {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Buscador de CEP</h1>
+        <form>
+            <div class="row">
+                <label for="cep">Cep:</label><input name="cep" type="text" id="cep" value="" size="10" maxlength="9" />
+            </div>
+            <div class="row">
+                <button onclick="pesquisaCep(document.querySelector('#cep').value)">Buscar</button>
+            </div>
+        </form>
+        <div class="result-container">
+            <h1>Resultado:</h1>
+            <div class="result">
+                <label for="rua">Rua:</label><input name="rua" type="text" id="rua" size="60" />
+                <br />
+                <label for="bairro">Bairro:</label> <input name="bairro" type="text" id="bairro" size="40" />
+                <br />
+                <label for="cidade">Cidade:</label><input name="cidade" type="text" id="cidade" size="40" />
+                <br />
+                <label for="uf">Estado:</label><input name="uf" type="text" id="uf" size="2" />
+                <br />
+                <label for="ibge">IBGE:</label><input name="ibge" type="text" id="ibge" size="8" />
+                <br />
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+
+    function limpaFormulario() {
+        document.querySelector('#rua').value = ''
+        document.querySelector('#bairro').value = ''
+        document.querySelector('#cidade').value = ''
+        document.querySelector('#uf').value = ''
+        document.querySelector('#ibge').value = ''
+    }
+
+    function meu_callback(conteudo) {
+        if (!("erro" in conteudo)) {
+            document.querySelector('#rua').value = (conteudo.logradouro)
+            document.querySelector('#bairro').value = (conteudo.bairro)
+            document.querySelector('#cidade').value = (conteudo.localidade)
+            document.querySelector('#uf').value = (conteudo.uf)
+            document.querySelector('#ibge').value = (conteudo.ibge)
+        }
+        else {
+            limpaFormulario()
+            alert("CEP não encontrado.")
+        }
+    }
+
+    function pesquisaCep(valor) {
+
+        event.preventDefault() // barra "reset" de pag causada pelo form
+
+        let cep = valor.replace(/\D/g, '')
+
+        if (cep != "") {
+
+            const validaCep = /^[0-9]{8}$/
+
+            if (validaCep.test(cep)) {
+
+                document.getElementById('rua').value = "..."
+                document.getElementById('bairro').value = "..."
+                document.getElementById('cidade').value = "..."
+                document.getElementById('uf').value = "..."
+                document.getElementById('ibge').value = "..."
+
+                let script = document.createElement('script')
+
+                //Sincroniza com o callback.
+                script.src = `https://viacep.com.br/ws/${cep}/json/?callback=meu_callback`
+                document.body.appendChild(script)
+
+            } else {
+                alert("Formato de CEP inválido.")
+            }
+        }
+
+    limpaFormulario()
+    }
+
+</script>
+
+</html>

@@ -1,0 +1,118 @@
+<html>
+
+<head>
+    <title>Atividade 3</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            margin: unset;
+            height: 100%;
+            background-color: darkslategray;
+            color: white;
+            font-family:Arial, Helvetica, sans-serif 
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: nowrap;
+            width: 70%;
+            align-items: center;
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .row button {
+            margin-top: 15px;
+            padding: 5px;
+        }
+        form, .result-container {
+            padding: 15px;
+            background-color: rgb(148, 147, 147);
+            width: 100%;
+            max-width: 600px;
+            border-radius: 0.375rem;
+        }
+        .result-container {
+            padding-bottom: 10vh;
+        }
+        .result input {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Titulo bom</h1>
+        <form>
+            <div class="row">
+                <label for="prod">prod:</label><input name="prod" type="text" id="prod" value=""/>
+            </div>
+            <div class="row">
+                <button id="search">Buscar</button>
+            </div>
+        </form>
+        <div class="result-container">
+            <h1 id="result-title">Resultado:</h1>
+            <div class="qtd-container">Quantidade encontrada: <div id="qtd"></div> </div>
+            <div class="result">
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="imagem"></div>
+        <div class="nome"></div>
+        <div class="categoria"></div>
+        <div class="preco">
+            
+        </div>
+        <div class="desconto">
+
+        </div>
+        <div class="descricao"></div>
+    </div>
+</body>
+<script>
+
+document.querySelector('#search').addEventListener('click', () => {
+    
+    event.preventDefault() // barra "reset" de pag causada pelo form
+    
+    const value = document.querySelector('#prod').value
+
+    document.querySelector('#result-title').innerHTML = 'Carregando'
+
+
+    fetch(`https://dummyjson.com/products/search?q=phone`)
+    .then(res => res.json())
+    .then(resp => {
+        console.log(resp)
+        document.querySelector('#qtd').innerHTML = resp.total
+        for(let val of resp.products) {
+            let div = document.createElement('div')
+            // confira no F12(devtools) caso queiram inserir mais ou menos valores :D
+            let skelly = `
+                <div class="imagem">${val.thumbnail}</div>
+                <div class="nome">${val.title}</div>
+                <div class="marca">${val.brand}</div>
+                <div class="categoria">${val.category}</div>
+                <div class="preco">${val.price}</div>
+                <div class="desconto">${val.discountPercentage}%</div>
+                <div class="descricao">${val.description}</div>
+            `
+            div.innerHTML = skelly
+
+            document.querySelector('.result').appendChild(div)
+
+            document.querySelector('#result-title').innerHTML = 'Resultados:'
+        }
+    })
+
+})
+
+</script>
+
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>fetch</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <main>
+
+        <div style="display: flex; justify-content: space-between;">
+            <div>
+                <h2>Get Postagem</h2>
+                <input id="numeroPostagem" type="number" min="1" max="100" value="1">
+                <button onclick="getPostagem(numeroPostagem.value)">Buscar</button>
+            </div>
+            <div>
+                <h2>Modificar</h2>
+                <input id="numeroModificar" type="number" min="1" max="100" value="1">
+                <button onclick="modificarPostagens(numeroModificar.value)">Modificar</button>
+            </div>
+            <div>
+                <h2>Remover</h2>
+                <input id="numeroRemover" type="number" min="1" max="100" value="1">
+                <button onclick="removerPostagem(numeroRemover.value)">Remover</button>
+            </div>
+            <div>
+                <h2>Postagens</h2>
+                <input id="usuario" type="number" min="1" max="10" value="1">
+                <button onclick="filtrarPostagens(usuario.value)">Filtrar</button>
+            </div>
+        </div>
+        <div style="display: flex; justify-content: space-between;">
+            <div>
+                <h2>Atualizar</h2>
+                <button onclick="atualizarPostagens()">Atualizar</button>
+            </div>
+            <div>
+                <h2>Post Postagem</h2>
+                <button onclick="postPostagens()">Enviar</button>
+            </div>
+            <div>
+                <h2>Get Postagens</h2>
+                <button onclick="getPostagens()">Buscar</button>
+            </div>
+        </div>
+        <div id="resp">
+            <p class="campo">Resposta:</p>
+            <p id="respjson"></p>
+        </div>
+    </main>
+</body>
+<script type="text/javascript" src="./scripts.js"></script>
+
+</html>
